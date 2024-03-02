@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "calebfiggers.typst-companion",
+    "mgt19937.typst-preview",
+    "nvarner.typst-lsp",
+  ]
+}

@@ -1,0 +1,39 @@
+---
+version: 3
+
+tasks:
+  default:
+    silent: true
+    cmds:
+    - go-task --list
+
+  format:
+    silent: true
+    desc: Format all typst files
+    preconditions:
+    - sh: command -v "typstfmt"
+      msg: "`typstfmt` is not installed"
+    cmds:
+    - typstfmt *.typ
+
+  compile:cv:fr:
+    silent: true
+    desc: Compile the French version of the CV
+    preconditions:
+    - sh: command -v "typst"
+      msg: "`typst` is not installed"
+    cmds:
+    - typst compile --font-path ./fonts cv.fr.typ
+    sources:
+    - cv.fr.typ
+    generates:
+    - cv.fr.pdf
+
+  gha:run:
+    silent: true
+    desc: Locally run the GitHub Workflow
+    preconditions:
+    - sh: command -v "act"
+      msg: "`act` is not installed"
+    cmds:
+    - act
