@@ -1,5 +1,7 @@
 # CV
 
+You can find the compiled CV [in the releases](https://github.com/bcourtel/cv/releases/latest).
+
 ## Requirements
 
 - [act](https://github.com/nektos/act)
