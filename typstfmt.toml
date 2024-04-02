@@ -1,0 +1,4 @@
+experimental_args_breaking_consecutive = true
+indent_space = 2
+line_wrap = true
+max_line_length = 80

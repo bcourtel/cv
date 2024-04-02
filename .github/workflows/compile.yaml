@@ -1,0 +1,39 @@
+---
+
+name: Compile CV to PDF
+
+run-name: Compile version ${{ github.head_ref }}.${{ github.sha }}
+
+on:
+- push
+
+jobs:
+  compile:
+    strategy:
+      matrix:
+        file:
+        - cv.fr
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Checkout the repo
+      uses: actions/checkout@v4
+      with:
+        submodules: true
+    - name: Compile the PDF
+      uses: docker://ghcr.io/typst/typst:v0.11.0@sha256:13e277b16e981c4587614f601119e5eac2a3cbf550bacab073b36e63b98580b1 
+      with:
+        entrypoint: /bin/typst
+        args: compile --font-path ./fonts ${{ matrix.file }}.typ ${{ matrix.file }}.pdf
+    - name: Upload the compiled PDF
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.file }}.pdf
+        path: ${{ matrix.file }}.pdf
+        if-no-files-found: error
+    - name: Release the compiled PDF
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: ${{ matrix.file }}.pdf
